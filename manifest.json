@@ -1,0 +1,18 @@
+{
+  "name": "KYC Tick",
+  "short_name": "KYC Tick",
+  "description": "Real-world identity verification dashboard powered by local deep learning inference.",
+  "id": "/app.html",
+  "start_url": "/app.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0070f3",
+  "icons": [
+    {
+      "src": "/icon-512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

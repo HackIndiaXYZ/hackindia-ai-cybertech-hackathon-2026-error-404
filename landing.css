@@ -1,0 +1,206 @@
+/* landing.css */
+:root {
+  --bg-color: #f2f2f2; /* Light grey to match the image edges */
+  --text-color: #1a1a1a;
+  --accent-color: #58a6ff;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+}
+
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.5s ease-out;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-left-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* We want the user to scroll to scrub through the animation */
+.scroll-container {
+  height: 500vh; /* 5x viewport height for scrolling */
+}
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 8vw 5vw;
+  box-sizing: border-box;
+}
+
+canvas#hero-lightpass {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+  /* Start hidden, fade in at the end of scroll */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none; /* Let clicks pass through if hidden */
+}
+
+.hero-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0px;
+  color: #111;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.9);
+}
+
+.hero-content p {
+  font-size: 1.25rem;
+  max-width: 450px;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+  color: #222;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.9);
+}
+
+.primary-button {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 15px rgba(88, 166, 255, 0.4);
+}
+
+.primary-button:hover {
+  background-color: #3182ce;
+}
+
+/* Scroll Animation Steps */
+.scroll-step {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  max-width: 350px;
+}
+
+.scroll-step h2 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  color: #111;
+}
+
+.scroll-step p {
+  font-size: 1rem;
+  margin: 0;
+  color: #444;
+  line-height: 1.4;
+  text-shadow: none;
+}
+
+.scroll-step.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step-bottom-left {
+  bottom: 15%;
+  left: 5%;
+}
+
+.step-top-left {
+  top: 15%;
+  left: 5%;
+}
+
+.step-top-right {
+  top: 15%;
+  right: 5%;
+}
+
+/* KYC Tick landing design system */
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #1e293b;
+  --accent-color: #344b70;
+  --font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+body, html { background: linear-gradient(135deg, #f8fafc 0%, #edf3fa 100%); color: var(--text-color); font-family: var(--font-family); }
+#loading-overlay { background: #f8fafc; color: #64748b; }
+.spinner { border-color: #e2e8f0; border-left-color: #344b70; }
+.sticky-container { padding: 7vw 6vw; align-items: flex-end; }
+.hero-content { max-width: 34rem; }
+.hero-content h1 { color: #1e293b; font-family: var(--font-family); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700; letter-spacing: -.045em; text-shadow: none; }
+.hero-content p { color: #64748b; font-size: 1.05rem; font-weight: 400; text-shadow: none; }
+.primary-button { border-radius: .35rem; background: #1e293b; box-shadow: 0 .35rem .8rem rgba(15,23,42,.16); font-weight: 700; }
+.primary-button:hover { background: #0f172a; }
+.scroll-step { max-width: 350px; padding: 1.25rem 1.4rem; border: 1px solid rgba(226,232,240,.9); border-radius: .5rem; background: rgba(255,255,255,.88); box-shadow: 0 .4rem 1.2rem rgba(15,23,42,.07), 0 .1rem .2rem rgba(15,23,42,.03); backdrop-filter: blur(8px); }
+.scroll-step h2 { color: #1e293b; font-family: var(--font-family); font-size: 1.15rem; font-weight: 600; }
+.scroll-step p { color: #64748b; font-family: var(--font-family); font-size: .92rem; }
+
+@media (max-width: 640px) {
+  .sticky-container { padding: 8vw 6vw; }
+  .hero-content h1 { font-size: 2.5rem; }
+  .scroll-step { max-width: 78%; padding: 1rem; }
+}
