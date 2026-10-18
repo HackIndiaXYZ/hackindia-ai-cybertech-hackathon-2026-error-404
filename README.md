@@ -2,70 +2,61 @@
 Hackathon team repository for Error 404 - [hackindia-team:hackindia-ai-cybertech-hackathon-2026:error-404]
 
 ---
-# Synthetic Document Integrity Triage Demo
 
-A local, install-free starter for a hackathon-style document-integrity project. It deliberately handles **fictional passport-style test data only**. It is not a travel-document verification product and never makes an approval, denial, blacklist, fraud, or identity decision.
+# KYC-Tick: AI-Powered Document Integrity & Fraud Prevention Platform
 
-## What works now
+**Live Production Demo:** [https://k-yc-tick.vercel.app](https://k-yc-tick.vercel.app)  
+**Main Development Repository:** [https://github.com/jeeva5655/kYC-Tick](https://github.com/jeeva5655/kYC-Tick)
 
-- Three clearly fictional TD3 passport MRZ fixtures: clean, printed-date mismatch, and simulated visual anomaly.
-- Deterministic TD3 MRZ check digits: document number, date of birth, expiry date, optional data, and composite check.
-- Printed-field versus MRZ consistency checks and expiry validation.
-- Separate, explainable axes for capture quality, data consistency, image anomalies, and identity comparison.
-- Only three human-safe triage states: `RETAKE_IMAGE`, `MANUAL_REVIEW`, and `NO_HIGH_RISK_SIGNAL_DETECTED`.
-- Masked result fields and a non-identifying SHA-256 audit digest. The server does not persist requests or results.
+A comprehensive, privacy-first identity document screening and anti-fraud platform designed for the HackIndia AI & CyberTech Hackathon 2026.
 
-## Run it
+## 🚀 Key Features
 
-This project needs Node.js 20 or later and no third-party packages.
+- **Global Passport Screening**: Complete TD3 MRZ parser, check digit calculations, and visual tamper validation.
+- **Indian Domestic ID Verification**: Native support for Aadhaar (QR code cryptographic RSA signature verification via UIDAI public certificates), PAN, Voter ID, and Driving Licence with Verhoeff checksums.
+- **5-Gate AI Detection Cascade**: Multi-stage inspection filtering EXIF metadata, Moiré screen patterns, noise variance, frequency/edge analysis, and synthetic FFT signatures.
+- **Facial Verification & Liveness**: 1:1 Face comparison between document portrait and live capture selfie.
+- **Privacy & Compliance by Design**:
+  - In-memory processing (zero persistence of raw biometric images).
+  - PII data masking (only last 4 characters visible).
+  - Cryptographic HMAC-SHA256 audit digest generation.
 
-```powershell
+## 🛠️ Architecture Overview
+
+The system features a hybrid architecture:
+1. **Cloud Frontend & Gateway (Vercel Serverless)**: Hosts the progressive web application (PWA) with 4K canvas animations, handles client uploads, and runs deterministic triage rules.
+2. **Local AI Vision Engine (FastAPI Microservice)**: Concurrently dispatches incoming documents across OCR (PaddleOCR), forgery detection (ManTraNet filters), and QR cryptographic checks.
+
+For complete architectural details, see [architecture_diagram.md](architecture_diagram.md).
+
+## 🏃 Run Locally
+
+### 1. Web Application & Gateway (Node.js)
+Requires Node.js 20+:
+`powershell
 node server.js
-```
+`
+Open [http://127.0.0.1:3000](http://127.0.0.1:3000) in your browser.
 
-Then open `http://127.0.0.1:3000` in a browser.
-
-For mobile testing with the Vercel frontend, expose the local vision service
-through Ngrok and paste the HTTPS URL into the app's Backend API URL field:
-
-```powershell
-ngrok http 8001
-```
-
-Keep the vision service running from `vision_service/` while the tunnel is
-active. The service accepts Vercel origins and the installed PWA opens directly
-to `/app.html`.
-
-Run the automated checks with:
-
-```powershell
+Run automated test suites:
+`powershell
 node --test screening.test.js
-```
+`
 
-## Privacy and demo boundary
+### 2. Vision Service (Python FastAPI)
+From the ision_service/ directory:
+`powershell
+cd vision_service
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app:app --host 127.0.0.1 --port 8001
+`
 
-- Do not enter real passports, visas, ID cards, face images, or personally identifying data.
-- No images, camera capture, OCR, metadata extraction, face matching, watchlist lookup, or external services are enabled.
-- Test fixtures are generated in code and use the non-country code `UTO`.
-- The API rejects requests unless `testOnly: true` is supplied.
-- The audit digest intentionally contains result-state data only, not raw fields.
+For mobile or cloud testing with the Vercel frontend, expose port 8001 via Ngrok:
+`powershell
+ngrok http 8001
+`
+Paste your Ngrok HTTPS tunnel URL directly into the **Backend API URL** field in the web app or mobile PWA.
 
-## Next milestones
-
-1. Run the isolated local vision service in `vision_service/`; it pins PaddleOCR, PaddlePaddle, OpenCV, and Pillow without mixing them into the browser-facing Node app.
-2. Add a local OCR adapter behind a narrow interface, beginning with synthetic fixtures.
-3. Add image-quality, EXIF, and error-level-analysis evidence—each described as an indicator, never proof.
-4. Add an encrypted, short-retention local audit-event store if the demo needs chained receipts.
-5. Evaluate against permitted mock-document datasets such as MIDV-2020/MIDV-DM after reviewing their current terms.
-6. Consider an optional, explicitly consented 1:1 face-to-document comparison only after the preceding modules are reliable. Do not add one-to-many identification or a biometric database search.
-
-## Architecture principle
-
-Keep adapters replaceable instead of copying large GitHub repositories into this codebase:
-
-```text
-UI → screening orchestrator → OCR/MRZ adapter → validation rules → image-anomaly adapter → explainable triage result
-```
-
-That lets the project later use an OCR library such as PaddleOCR while preserving a small, testable core and clear privacy boundaries.
-
+---
